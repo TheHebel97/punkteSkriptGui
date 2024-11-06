@@ -1,0 +1,55 @@
+Bewertungsmaßstab Aufgabenblatt 02;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Webseiten - Einmaleins;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;MAXIMAL;Shapovalov, Alexander % Wecker, Dennis;Voth, Maik % Walters, Christopher;Dick, Markus % Zdorovtsov, Akim;Jordan, Michael % Kramer, Maximilian;Ochs, Lukas % Kuschitzki, Juliane;Koch, Lilli Yvonne % Nowak, Nico;Plett, André % Röwekamp, Daniel;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Aufgabe 1 ( 2 Punkte ) - Validator;;;;;;;;;;;;;;;;;;;;;;;;!!!! Erlaubte Werte - NICHT ÄNDERN !!!!;;;;;;;;;;;;;
+Additive Punkte:;;;;;;;;;;;;;;;;;;;;;;;;1;0.5;-0.5;-1;-2;0;1;0.25;-0.25;0.75;-2;0.5;2;2
+context.html aus Blatt 01 mit dem Validator geprüft;1;1;1;1;1;1;1;1;;;;;;;;;;;;;;;;0;0;0;-0.5;-1.5;-10;0.5;0;0;0.5;-1.75;0.25;1.75;1.5
+soweit angepasst, bis keine Meldungen mehr vorhanden sind;1;1;1;1;1;1;1;1;;;;;;;;;;;;;;;;;;;0;-1;;0;;;0.25;-1.5;0;1.5;1
+Subtraktive Punkte:;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-0.5;;0.5;0
+nicht alle Meldungen behoben;-0.5;;;;0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-0.25;;0.25;
+Kommentarfeld;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;0;;0;
+Zusatzpunkte für besonders gute / schlechte Leistungen;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Summe Aufgabe 1:;2;2;2;2;2;2;2;2;0;0;0;;;;;;;;;;;;;;;;;;;;;;;;;;
+Aufgabe 2 ( 4 Punkt ) - 3 Seiten mit Menü erstellen;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Additive Punkte:;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+index.html, seiteA.html, seiteB.html erstellt;0.5;0.5;0.5;0.5;0.5;0.5;0.5;0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Menüleiste oben erstellt;0.5;0.5;0;0.5;0.5;0.5;0.5;0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Aktive Seite ist im Menü inaktiv;1;1;0;1;1;1;1;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Absätze mit Lorem Ipsum + Überschriften eingefügt;0.5;0.5;0.5;0.5;0.5;0.5;0.5;0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Bild auf index.html eingefügt;0.5;0.5;0.5;0.5;0.5;0.5;0.5;0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Video auf InhaltA.html eingefügt;0.5;0.5;0.5;0.5;0.5;0.5;0.5;0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+zwei Bilder nebeneinander auf indexB.html eingefügt;0.5;0.5;0.5;0.5;0.5;0.5;0.5;0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Kommentarfeld;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Zusatzpunkte für besonders gute / schlechte Leistungen;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Summe Aufgabe 2:;4;4;2.5;4;4;4;4;4;0;0;0;;;;;;;;;;;;;;;;;;;;;;;;;;
+Aufgabe 3 ( 2Punkte ) - relative und absolute Links;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Additive Punkte:;;;;;;;;;;;;;s;;;;;;;;;;;;;;;;;;;;;;;;
+A;0.5;0.5;0.5;0.5;0.5;0.5;0.5;0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+B;0.5;0.5;0.5;0.5;0.5;0.5;0.5;0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+C;0.5;0.5;0;0.5;0.5;0.5;0.5;0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+D;0.5;0.5;0;0.5;0.5;0.5;0.5;0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Kommentarfeld;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Zusatzpunkte für besonders gute / schlechte Leistungen;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Summe Aufgabe 3:;2;2;1;2;2;2;2;2;0;0;0;;;;;;;;;;;;;;;;;;;;;;;;;;
+Aufgabe 4 ( 1 Punkt ) - WayBackMachine / Aufgabe 5 (1Punkt);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Additive Punkte:;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Umstellung auf Smarphone First Webseite;0.5;0.5;0.5;0.5;0.5;0.5;0.5;0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Logo, Farbe, Texte geändert, mehr Bilder;0.5;0.5;0.5;0.5;0.5;0.5;0.5;0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ Kontrast Probleme;0.5;0.5;0.5;0.5;0;0.5;0.5;0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Änderung Text / BG Color;0.5;0.5;0.5;0.5;0;0.5;0.5;0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Kommentarfeld;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Zusatzpunkte für besonders gute / schlechte Leistungen;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Summe Aufgabe 4 / 5:;2;2;2;2;1;2;2;2;0;0;0;;;;;;;;;;;;;;;;;;;;;;;;;;
+Weitere Subtraktive Punkte;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Falsche Ordnerstruktur;-0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Falsche Abgabe (Bezeichnungen / Dateiformat);-0.5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+mangelnde Erklärung während des Testats;-2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Sonstige Abzüge;-2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Plagiatsverdacht;-10;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Summe weitere Subtraktive:;-5;0;0;0;0;0;0;0;0;0;0;;;;;;;;;;;;;;;;;;;;;;;;;;
+Kommentarfeld;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Zusatzpunkte für besonders gute / schlechte Leistungen;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Gesamtpunktzahl:;10;10;7.5;10;9;10;10;10;0;0;0;;;;;;;;;;;;;;;;;;;;;;;;;;
