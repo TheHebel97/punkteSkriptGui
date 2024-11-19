@@ -53,7 +53,9 @@ $(document).ready(function () {
         console.log(Object.entries(confirmedData[id]));
         Object.entries(confirmedData[id]).forEach(([name, points]) => {
           console.log(name, points)
-          let tryToFindName = $("#exc_mem").find("tr:contains(Abend, Mark)")
+          console.log($("#exc_mem").find("tr:contains("+name+")"))
+          let tryToFindName = $("#exc_mem").find("tr:contains("+name+")");
+          console.log(tryToFindName)
           if (tryToFindName.length > 0) {
             console.log("Name gefunden")
             if(points <5){
