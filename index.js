@@ -13,7 +13,19 @@ $(document).ready(function () {
   const csvImportHtml = `<label for="csvImport">CSV Import</label>
 <textarea id="csvImport" name="csvImport" style="width: 75%; height: 100px; margin-right: 15px"></textarea> 
 <input class="btn btn-default" value="Importieren" id="csvImportBtn">`
-
+  const style = document.createElement('style');
+  style.innerHTML = `
+  .highlight {
+    background-color: yellow;
+  }
+  table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  table tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+`;
+  document.head.appendChild(style);
 
   function waitForElm(selector) {
     return new Promise(resolve => {
@@ -60,10 +72,16 @@ $(document).ready(function () {
           console.log(tryToFindName)
           if (tryToFindName.length > 0) {
             console.log("Name gefunden")
-            if(points <5){
-              $(tryToFindName).find("option[value='failed']").attr("selected", "selected");
+            if (points < 5) {
+              let selectElement = $(tryToFindName).find("option[value='failed']").closest('select');
+              if (selectElement.val() !== 'failed') {
+                selectElement.val('failed').addClass('highlight');
+              }
             } else {
-              $(tryToFindName).find("option[value='passed']").attr("selected", "selected");
+              let selectElement = $(tryToFindName).find("option[value='passed']").closest('select');
+              if (selectElement.val() !== 'passed') {
+                selectElement.val('passed').addClass('highlight');
+              }
             }
 
           }
@@ -91,7 +109,10 @@ $(document).ready(function () {
             let taskDetails ="";
               Object.entries(tasks).forEach(([task, points]) => taskDetails+=`Blatt ${task}: ${points} Punkte \n`);
             console.log(taskDetails);
-            $(studentRow).find("textarea[name^='lcomment']").val(taskDetails);
+            let textareaElement = $(studentRow).find("textarea[name^='lcomment']");
+            if (textareaElement.val() !== taskDetails) {
+              textareaElement.val(taskDetails).addClass('highlight');
+            }
           }
         });
 
