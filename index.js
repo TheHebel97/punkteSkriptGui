@@ -41,11 +41,13 @@ $(document).ready(function () {
     console.log("detect context")
     let tabAssignment = $("#subtab_assignment").prop("class") === "active";
     let tabGrades = $("#subtab_grades").prop("class") === "active";
+    let tabMembers = $("#subtab_participant").prop("class") === "active";
 
     console.log("laden von Daten aus localstorage")
     let data = JSON.parse(localStorage.getItem("GUIEPunkte")) || {};
     let confirmedData = JSON.parse(localStorage.getItem("ConfirmedGUIEPunkte"));
     if (confirmedData !== null) {
+      console.log(confirmedData);
       if (tabAssignment) {
         console.log("Auf Übungseinheit Seite")
         let id = $("#ass_id").find("option:selected").text().match(/\d+/)[0]
@@ -65,14 +67,38 @@ $(document).ready(function () {
             }
 
           }
-
-
-          $(`input[name="points[${name}]"]`).val(points);
         });
 
       } else if (tabGrades) {
         console.log("Auf Noten Seite")
+        let studentData = {};
 
+        // Transform data structure
+        Object.entries(confirmedData).forEach(([task, taskData]) => {
+          Object.entries(taskData).forEach(([student, points]) => {
+            if (!studentData[student]) {
+              studentData[student] = {};
+            }
+            studentData[student][task] = points;
+          });
+        });
+
+        // Insert transformed data into the page
+        const table = $("table[id^='exc_grades']")
+        Object.entries(studentData).forEach(([student, tasks]) => {
+          let studentRow = $(table).find("tr:contains(" + student + ")");
+          if (studentRow.length > 0) {
+            let taskDetails ="";
+              Object.entries(tasks).forEach(([task, points]) => taskDetails+=`Blatt ${task}: ${points} Punkte \n`);
+            console.log(taskDetails);
+            $(studentRow).find("textarea[name^='lcomment']").val(taskDetails);
+          }
+        });
+
+        return;
+      } else if(tabMembers){
+        console.log("Auf Mitglieder Seite")
+        return;
       }
     }
     console.log(data);
@@ -91,7 +117,7 @@ $(document).ready(function () {
       $("#csvImport").val("");
       //get data from csv
       for (let i = 0; i < csvLines.length; i++) {
-        if (csvLines[i].includes("Bewertungsmaßstab")) {
+        if (csvLines[i].includes("Bewertung")) {
           taskNumber = csvLines[i].match(/\d+/)[0];
         }
         if (csvLines[i].includes(";MAXIMAL")) {
