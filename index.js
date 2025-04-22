@@ -11,8 +11,16 @@
 
 $(document).ready(function () {
     const csvImportHtml = `<label for="csvImport">CSV Import</label>
-<textarea id="csvImport" name="csvImport" style="width: 75%; height: 100px; margin-right: 15px"></textarea> 
-<input class="btn btn-default" value="Importieren" id="csvImportBtn">`
+<textarea id="csvImport" name="csvImport" style="width: 75%; height: 100px; margin-right: 15px"></textarea>
+<input class="btn btn-default" value="Importieren" id="csvImportBtn">
+<br>
+<label for="jsonImport">JSON Import</label>
+<textarea id="jsonImport" name="jsonImport" style="width: 75%; height: 100px; margin-right: 15px; margin-top: 10px;"></textarea>
+<input class="btn btn-default" value="JSON Importieren" id="jsonImportBtn">
+<br>
+<input class="btn btn-default" value="JSON Exportieren" id="jsonExportBtn">`;
+
+
     const style = document.createElement('style');
     style.innerHTML = `
   .highlight {
@@ -151,6 +159,13 @@ $(document).ready(function () {
                     points = csvLines[i].split(";");
                 }
             }
+
+            // Check if task number is undefined
+            if (typeof taskNumber === 'undefined') {
+                alert("Invalid data: Task number is undefined.");
+                return;
+            }
+
             console.log(taskNumber);
             console.log(names);
             console.log(points);
@@ -162,7 +177,9 @@ $(document).ready(function () {
                     nameParts.forEach(name => {
                         let trimName = name.trim();
                         if (!trimName.startsWith("Tandem")) {
-                            taskData[trimName] = parseFloat(points[j]);
+                            // Ersetze Komma durch Punkt
+                            let pointValue = parseFloat(points[j].replace(",", "."));
+                            taskData[trimName] = pointValue;
                         }
                     });
                 }
@@ -172,6 +189,40 @@ $(document).ready(function () {
             console.log(data);
             localStorage.setItem("GUIEPunkte", JSON.stringify(data));
             renderTable(data);
+        });
+
+        // JSON Import functionality
+        $("#jsonImportBtn").click(function () {
+            let jsonData = $("#jsonImport").val();
+            try {
+                let parsedData = JSON.parse(jsonData);
+                localStorage.setItem("GUIEPunkte", JSON.stringify(parsedData));
+                console.log("JSON data imported and stored!");
+                renderTable(parsedData);
+                $("#jsonImport").val("");
+            } catch (e) {
+                console.error("Invalid JSON data:", e);
+                alert("Invalid JSON data. Please check the format and try again.");
+            }
+        });
+
+        // JSON Export functionality
+        $("#jsonExportBtn").click(function () {
+            let data = localStorage.getItem("GUIEPunkte");
+            if (data) {
+                let blob = new Blob([data], { type: "application/json" });
+                let url = URL.createObjectURL(blob);
+                let a = document.createElement("a");
+                a.href = url;
+                a.download = "GUIEPunkte.json";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                console.log("JSON data exported!");
+            } else {
+                alert("No data to export.");
+            }
         });
 
         // Create a container for the table
@@ -207,7 +258,7 @@ $(document).ready(function () {
 
             names.forEach(name => {
                 const row = $('<tr></tr>');
-                row.append(`<td>${name}</td>`);
+                row.append(`<td>${name} <span class="remove-row" style="color: red; cursor: pointer;">&#10060;</span> </td>`);
 
                 // Calculate total points for the name
                 let totalPoints = 0;
@@ -222,15 +273,27 @@ $(document).ready(function () {
                     row.append(`<td style="background-color: ${color};">${points}</td>`);
                 });
                 tbody.append(row);
+                row.find('.remove-row').click(function () {
+                    Object.keys(data).forEach(taskNumber => {
+                        delete data[taskNumber][name];
+                    });
+                    localStorage.setItem("GUIEPunkte", JSON.stringify(data));
+                    renderTable(data);
+                });
             });
 
             table.append(thead);
             table.append(tbody);
             tableContainer.append(table);
 
-            // Toggle table visibility
+            // Retrieve and set the initial table visibility from localStorage
+            const tableVisible = localStorage.getItem("tableVisible") === "true";
+            table.toggle(tableVisible);
+
+            // Toggle table visibility and save the state in localStorage
             toggleDiv.click(function () {
                 table.toggle();
+                localStorage.setItem("tableVisible", table.is(":visible"));
             });
 
             // Create a flexbox container for the buttons
