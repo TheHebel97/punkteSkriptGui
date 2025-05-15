@@ -1,4 +1,4 @@
-# Bewertungsskript für Abgaben im Modul Grundlagen und Userinterface
+# Bewertungsskript für Abgaben im Modul Grundlagen Userinterface Entwicklung
 
 ## Beschreibung
 
