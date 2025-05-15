@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      2024-10-30
 // @description  try to take over the world!
-// @author       You
+// @author       TheHebel97
 // @match        https://lms.hs-osnabrueck.de/ilias.php?baseClass=ilexercisehandlergui&cmdNode=*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=hs-osnabrueck.de
 // @grant        none

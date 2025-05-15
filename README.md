@@ -45,6 +45,12 @@ im Browser auf der Ilias Seite der Hochschule Osnabrück.
    ```bash
    git clone <repository-url>
    cd <repository-name>
+    ```
 
 2. **Hot Reload**
-   - soon
+   - starte  den lokalen Server mit Hot Reload:
+   ```bash
+    npm start
+    ```
+   - Füge das development Skript in Tampermonkey statt dem index.js Skript hinzu.
+   - Das Skript wird automatisch aktualisiert, wenn du Änderungen vorgenommen werden.
