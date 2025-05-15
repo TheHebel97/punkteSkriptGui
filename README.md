@@ -43,8 +43,8 @@ im Browser auf der Ilias Seite der Hochschule Osnabrück.
 1. **Repository klonen**
    Klone das Repository auf deinen lokalen Rechner:
    ```bash
-   git clone <repository-url>
-   cd <repository-name>
+   git clone https://github.com/TheHebel97/punkteSkriptGui.git
+   cd punkteSkriptGui
     ```
 
 2. **Hot Reload**
