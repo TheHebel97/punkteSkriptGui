@@ -10,7 +10,7 @@
 // ==/UserScript==
 
 $(document).ready(function () {
-    const csvImportHtml = `<label for="csvImport">CSV Import</label>
+    const csvImportHtml = `<div id="csvImport"><label for="csvImport">CSV Import</label>
 <textarea id="csvImport" name="csvImport" style="width: 75%; height: 100px; margin-right: 15px"></textarea>
 <input class="btn btn-default" value="Importieren" id="csvImportBtn">
 <br>
@@ -18,7 +18,7 @@ $(document).ready(function () {
 <textarea id="jsonImport" name="jsonImport" style="width: 75%; height: 100px; margin-right: 15px; margin-top: 10px;"></textarea>
 <input class="btn btn-default" value="JSON Importieren" id="jsonImportBtn">
 <br>
-<input class="btn btn-default" value="JSON Exportieren" id="jsonExportBtn">`;
+<input class="btn btn-default" value="JSON Exportieren" id="jsonExportBtn"></div>`;
 
 
     const style = document.createElement('style');
@@ -137,7 +137,7 @@ $(document).ready(function () {
         console.log("Seite geladen");
         let scope = $(".navbar-form").find("option:selected").text();
         console.log(scope)
-        $("#tb-collapse-1").parent().append(csvImportHtml)
+        $(".ilToolbarContainer").after().append(csvImportHtml)
 
 
         $("#csvImportBtn").click(function () {
@@ -227,7 +227,7 @@ $(document).ready(function () {
 
         // Create a container for the table
         const tableContainer = $('<div id="tableContainer" style="margin: 15px;"></div>');
-        $("#tb-collapse-1").parent().append(tableContainer);
+        $("#csvImport").after().append(tableContainer);
 
         // Function to render the table
         function renderTable(data) {
