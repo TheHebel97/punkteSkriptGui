@@ -10,18 +10,33 @@
 // ==/UserScript==
 
 $(document).ready(function () {
-    const csvImportHtml = `<div id="csvImport"><label for="csvImport">CSV Import</label>
-<textarea id="csvImport" name="csvImport" style="width: 75%; height: 100px; margin-right: 15px"></textarea>
-<input class="btn btn-default" value="Importieren" id="csvImportBtn">
-<br>
-<label for="jsonImport">JSON Import</label>
-<textarea id="jsonImport" name="jsonImport" style="width: 75%; height: 100px; margin-right: 15px; margin-top: 10px;"></textarea>
-<input class="btn btn-default" value="JSON Importieren" id="jsonImportBtn">
-<br>
-<input class="btn btn-default" value="JSON Exportieren" id="jsonExportBtn"></div>`;
+    const csvImportHtml = `
+    <div id="importWrapper" style="margin-bottom:10px;">
+      <div style="margin-bottom:8px;">
+        <label for="csvImport">CSV Import</label>
+      </div>
+      <div style="display:flex; gap:10px; align-items:flex-start; margin-bottom:12px;">
+        <textarea id="csvImport" name="csvImport" style="width: 75%; height: 100px;"></textarea>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <input class="btn btn-default" value="Importieren" id="csvImportBtn">
+        </div>
+      </div>
+
+      <div style="margin-bottom:8px;"><label for="jsonImport">JSON Import</label></div>
+      <div style="display:flex; gap:10px; align-items:flex-start;">
+        <textarea id="jsonImport" name="jsonImport" style="width: 75%; height: 100px;"></textarea>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <input class="btn btn-default" value="JSON Importieren" id="jsonImportBtn">
+          <input class="btn btn-default" value="JSON Exportieren" id="jsonExportBtn">
+        </div>
+      </div>
+
+      <!-- Host für die Tabelle: hier wird die Tabelle reingepackt -->
+      <div id="tableHost" style="margin-top:12px;"></div>
+    </div>`;
 
 
-    const style = document.createElement('style');
+            const style = document.createElement('style');
     style.innerHTML = `
   .highlight {
     background-color: yellow;
@@ -32,6 +47,8 @@ $(document).ready(function () {
   table tr:nth-child(odd) {
     background-color: #ffffff;
   }
+  .my-table { border-collapse: collapse; border: 1px solid #ccc; }
+  .my-table th, .my-table td { border: 1px solid #ccc; padding: 6px; }
 `;
     document.head.appendChild(style);
 
@@ -41,12 +58,12 @@ $(document).ready(function () {
                 return resolve(document.querySelector(selector));
             }
 
-            const observer = new MutationObserver(mutations => {
-                if (document.querySelector(selector)) {
-                    observer.disconnect();
-                    resolve(document.querySelector(selector));
-                }
-            });
+            const observer = new MutationObserver(() => {
+                 if (document.querySelector(selector)) {
+                     observer.disconnect();
+                     resolve(document.querySelector(selector));
+                 }
+             });
 
             // If you get "parameter 1 is not of type 'Node'" error, see https://stackoverflow.com/a/77855838/492336
             observer.observe(document.body, {
@@ -57,7 +74,7 @@ $(document).ready(function () {
     }
 
 
-    waitForElm(".ilTabsContentOuter").then((elm) => {
+    waitForElm(".ilTabsContentOuter").then(() => {
         console.log("detect context")
         let tabAssignment = $("#subtab_assignment").prop("class") === "active";
         let tabGrades = $("#subtab_grades").prop("class") === "active";
@@ -76,20 +93,21 @@ $(document).ready(function () {
                     console.log(Object.entries(confirmedData[id]));
                     Object.entries(confirmedData[id]).forEach(([name, points]) => {
                         console.log(name, points)
-                        console.log($("#exc_mem").find("tr:contains(" + name + ")"))
                         let tryToFindName = $("#exc_mem").find("tr:contains(" + name + ")");
                         console.log(tryToFindName)
                         if (tryToFindName.length > 0) {
                             console.log("Name gefunden")
                             if (points < 5) {
                                 let selectElement = $(tryToFindName).find("option[value='failed']").closest('select');
-                                if (selectElement.val() !== 'failed') {
-                                    selectElement.val('failed').addClass('highlight');
+                                if (selectElement.length > 0 && selectElement[0].value !== 'failed') {
+                                    selectElement[0].value = 'failed';
+                                    selectElement[0].classList.add('highlight');
                                 }
                             } else {
                                 let selectElement = $(tryToFindName).find("option[value='passed']").closest('select');
-                                if (selectElement.val() !== 'passed') {
-                                    selectElement.val('passed').addClass('highlight');
+                                if (selectElement.length > 0 && selectElement[0].value !== 'passed') {
+                                    selectElement[0].value = 'passed';
+                                    selectElement[0].classList.add('highlight');
                                 }
                             }
 
@@ -121,8 +139,9 @@ $(document).ready(function () {
                         Object.entries(tasks).forEach(([task, points]) => taskDetails += `Blatt ${task}: ${points} Punkte \n`);
                         console.log(taskDetails);
                         let textareaElement = $(studentRow).find("textarea[name^='lcomment']");
-                        if (textareaElement.val() !== taskDetails) {
-                            textareaElement.val(taskDetails).addClass('highlight');
+                        if (textareaElement.length > 0 && textareaElement[0].value !== taskDetails) {
+                            textareaElement[0].value = taskDetails;
+                            textareaElement[0].classList.add('highlight');
                         }
                     }
                 });
@@ -137,16 +156,18 @@ $(document).ready(function () {
         console.log("Seite geladen");
         let scope = $(".navbar-form").find("option:selected").text();
         console.log(scope)
-        $(".ilToolbarContainer").after().append(csvImportHtml)
+        $(".ilToolbarContainer").after(csvImportHtml)
 
 
         $("#csvImportBtn").click(function () {
-            let csvLines = $("#csvImport").val().split("\n");
+            // Native JS: Wert aus Textarea holen
+            let csvLines = document.getElementById("csvImport").value.split("\n");
             let names = [];
             let taskNumber;
             let points = [];
 
-            $("#csvImport").val("");
+            // Native JS: Textarea leeren
+            document.getElementById("csvImport").value = "";
             //get data from csv
             for (let i = 0; i < csvLines.length; i++) {
                 if (csvLines[i].includes("Bewertung")) {
@@ -177,9 +198,8 @@ $(document).ready(function () {
                     nameParts.forEach(name => {
                         let trimName = name.trim();
                         if (!trimName.startsWith("Tandem")) {
-                            // Ersetze Komma durch Punkt
-                            let pointValue = parseFloat(points[j].replace(",", "."));
-                            taskData[trimName] = pointValue;
+                            // Ersetze Komma durch Punkt und setze direkt
+                            taskData[trimName] = parseFloat(points[j].replace(",", "."));
                         }
                     });
                 }
@@ -193,13 +213,15 @@ $(document).ready(function () {
 
         // JSON Import functionality
         $("#jsonImportBtn").click(function () {
-            let jsonData = $("#jsonImport").val();
+            // Native JS: Wert aus Textarea holen
+            let jsonData = document.getElementById("jsonImport").value;
             try {
                 let parsedData = JSON.parse(jsonData);
                 localStorage.setItem("GUIEPunkte", JSON.stringify(parsedData));
                 console.log("JSON data imported and stored!");
                 renderTable(parsedData);
-                $("#jsonImport").val("");
+                // Native JS: Textarea leeren
+                document.getElementById("jsonImport").value = "";
             } catch (e) {
                 console.error("Invalid JSON data:", e);
                 alert("Invalid JSON data. Please check the format and try again.");
@@ -225,20 +247,60 @@ $(document).ready(function () {
             }
         });
 
-        // Create a container for the table
-        const tableContainer = $('<div id="tableContainer" style="margin: 15px;"></div>');
-        $("#csvImport").after().append(tableContainer);
+        // Create a container for the table as a real DOM node and a jQuery wrapper
+        const tableContainer = document.createElement('div');
+        tableContainer.id = 'tableContainer';
+        tableContainer.style.margin = '15px';
+        // Wenn ein Host-Div vorhanden ist (in der Import-HTML), füge das tableContainer dort ein
+        const tableHost = document.getElementById('tableHost');
+        if (tableHost) {
+            tableHost.appendChild(tableContainer);
+        } else {
+            // Insert after the jsonImport element if present, otherwise try toolbar, otherwise append to body
+            const jsonImportEl = document.getElementById('jsonImport');
+            if (jsonImportEl && jsonImportEl.parentNode) {
+                jsonImportEl.parentNode.insertBefore(tableContainer, jsonImportEl.nextSibling);
+            } else {
+                const toolbar = document.querySelector('.ilToolbarContainer');
+                if (toolbar && toolbar.parentNode) {
+                    toolbar.parentNode.insertBefore(tableContainer, toolbar.nextSibling);
+                } else {
+                    document.body.appendChild(tableContainer);
+                }
+            }
+        }
+
+        // Create a persistent toggle button (native DOM) and a content container
+        const toggleButton = document.createElement('div');
+        toggleButton.textContent = 'Toggle Table';
+        toggleButton.style.cursor = 'pointer';
+        toggleButton.style.padding = '10px';
+        toggleButton.style.backgroundColor = '#d5d1d1';
+        toggleButton.style.marginBottom = '10px';
+        // Content area where table and buttons will be rendered
+        const contentDiv = document.createElement('div');
+        contentDiv.id = 'tableContent';
+        // Apply initial visibility from localStorage
+        const initialVisible = localStorage.getItem('tableVisible') === 'true';
+        contentDiv.style.display = initialVisible ? '' : 'none';
+
+        tableContainer.appendChild(toggleButton);
+        tableContainer.appendChild(contentDiv);
+
+        // Toggle behavior (native)
+        toggleButton.addEventListener('click', function () {
+            const currentlyVisible = contentDiv.style.display !== 'none';
+            contentDiv.style.display = currentlyVisible ? 'none' : '';
+            localStorage.setItem('tableVisible', !currentlyVisible);
+        });
 
         // Function to render the table
         function renderTable(data) {
-            tableContainer.empty();
+            // Clear only the content area (leave the persistent toggle button alone)
+            contentDiv.innerHTML = '';
 
-            // Create a clickable div to toggle the table
-            const toggleDiv = $('<div style="cursor: pointer; padding: 10px; background-color: #d5d1d1; margin-bottom: 10px;">Toggle Table</div>');
-            tableContainer.append(toggleDiv);
-
-            // Create the table element
-            const table = $('<table border="1" style="width: 100%; display: none;"></table>');
+            // Create the table element (jQuery for rows is still fine)
+            const table = $('<table class="my-table" style="width: 100%;"></table>');
             const thead = $('<thead></thead>');
             const tbody = $('<tbody></tbody>');
 
@@ -284,21 +346,13 @@ $(document).ready(function () {
 
             table.append(thead);
             table.append(tbody);
-            tableContainer.append(table);
-
-            // Retrieve and set the initial table visibility from localStorage
-            const tableVisible = localStorage.getItem("tableVisible") === "true";
-            table.toggle(tableVisible);
-
-            // Toggle table visibility and save the state in localStorage
-            toggleDiv.click(function () {
-                table.toggle();
-                localStorage.setItem("tableVisible", table.is(":visible"));
-            });
+            // Append the table into the contentDiv (native DOM)
+            contentDiv.appendChild(table[0]);
 
             // Create a flexbox container for the buttons
             const buttonContainer = $('<div style="display: flex; gap: 10px; margin-top: 10px;"></div>');
-            tableContainer.append(buttonContainer);
+            // Append button container to contentDiv
+            contentDiv.appendChild(buttonContainer[0]);
 
             // Create a button to confirm the data
             const confirmButton = $('<div style="cursor: pointer; padding: 10px; background-color: #4CAF50; color: white; text-align: center;">Daten bestätigen</div>');
